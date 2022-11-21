@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
+import Home from "./components/Home";
 
 function App() {
   const CLIENT_ID = "d0a8cf245f004b0b8007beb2316db1cf";
@@ -8,6 +11,7 @@ function App() {
   const RESPONSE_TYPE = "token";
 
   const [token, setToken] = useState("");
+  const [user, setUser] = useState("");
 
   useEffect(() => {
     // get user token when login
@@ -26,16 +30,33 @@ function App() {
     }
 
     setToken(token);
+
+    // fetch user data after login
+    const fetchUser = async () => {
+      try {
+        const { data } = await axios.get("https://api.spotify.com/v1/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUser(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchUser();
   }, []);
 
   const logout = () => {
     setToken("");
     window.localStorage.removeItem("token");
   };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Spotify React</h1>
+    <div>
+      <div className="App-header">
+        <h1>Spotify Companion</h1>
         {!token ? (
           <a
             href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
@@ -43,20 +64,17 @@ function App() {
             Login to Spotify
           </a>
         ) : (
-          <button onClick={logout}>Logout</button>
+          <BrowserRouter>
+            <Routes>
+              <Route
+                path="/"
+                element={<Home user={user} logout={logout} token={token} />}
+              ></Route>
+              <Route path="/home" />
+            </Routes>
+          </BrowserRouter>
         )}
-
-        {/* {token ? (
-          <form onSubmit={searchArtists}>
-            <input type="text" onChange={(e) => setSearchKey(e.target.value)} />
-            <button type={"submit"}>Search</button>
-          </form>
-        ) : (
-          <h2>Please login</h2>
-        )}
-
-        {renderArtists()} */}
-      </header>
+      </div>
     </div>
   );
 }
