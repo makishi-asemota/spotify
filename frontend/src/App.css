@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.profileImage {
+  width: 20vw;
+}
+
+.top {
+  padding-top: 3%;
+}
