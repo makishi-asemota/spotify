@@ -33,7 +33,7 @@ app.get("/login", (req, res) => {
   res.cookie(stateKey, state);
 
   // scope to get access to user spotify data
-  const scope = "user-read-private user-read-email";
+  const scope = "user-read-private user-read-email user-top-read";
 
   // parse url params for easy access
   const queryParams = querystring.stringify({
