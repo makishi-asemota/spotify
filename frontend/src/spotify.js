@@ -3,6 +3,11 @@ import axios from "axios";
 // get current user profile
 export const getCurrentUserProfile = () => axios.get("/me");
 
+// get current user playlists
+export const getCurrentUserPlaylists = (limit = 20) => {
+  return axios.get(`/me/playlists?limit=${limit}`);
+};
+
 // localStorage keys
 const LOCALSTORAGE_KEYS = {
   accessToken: "spotify_access_token",
