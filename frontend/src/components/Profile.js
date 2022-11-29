@@ -7,12 +7,14 @@ import {
 import { logout } from "../spotify";
 import Stack from "react-bootstrap/Stack";
 import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
 import "bootstrap/dist/css/bootstrap.css";
 
 export default function Profile() {
   const [profile, setProfile] = useState(null);
   const [playlists, setPlaylists] = useState(null);
   const [topArtists, setTopArtists] = useState(null);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -35,7 +37,9 @@ export default function Profile() {
     fetchTopArtists();
   }, []);
 
-  let artistArray = topArtists.items.slice(0, 10);
+  console.log(topArtists);
+  // let allArtists = topArtists?.items?.slice(0, 10);
+  let topFiveArtists = topArtists?.items.slice(0, 5);
 
   return (
     <>
@@ -48,8 +52,10 @@ export default function Profile() {
           />
           <div>
             <h1 className="fw-bold">{profile?.id}</h1>
-            <p>{profile?.followers.total} Followers</p>
-            <p>{playlists?.total} Public Playlists</p>
+            <div className="d-flex justify-content-evenly">
+              <p>{profile?.followers.total} Followers</p>
+              <p>{playlists?.total} Public Playlists</p>
+            </div>
           </div>
           <Button
             variant="outline-success"
@@ -60,18 +66,26 @@ export default function Profile() {
           </Button>{" "}
         </div>
 
-        <div>
+        <div className="topArtists">
           <h2>Top Artists</h2>
-          <div className="d-flex">
-            {artistArray.map((artist, idx) => (
-              <div>
-                <img
-                  className="topArtists"
-                  src={artist.images[0].url}
-                  alt="topArtist"
-                ></img>
-              </div>
-            ))}
+          <div>
+            <div className="d-flex justify-content-evenly">
+              {topFiveArtists?.map((artist, idx) => (
+                <div>
+                  <Card style={{ width: "18vw" }} className="card">
+                    <Card.Img
+                      variant="top"
+                      src={artist.images[0].url}
+                      className="rounded-circle cardTop"
+                    />
+                    <Card.Body className="cardBody">
+                      <Card.Title>{artist.name}</Card.Title>
+                      <Card.Text>Artist</Card.Text>
+                    </Card.Body>
+                  </Card>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </Stack>
