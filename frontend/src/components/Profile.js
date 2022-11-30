@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import ReactPlayer from "react-player";
 import {
   getCurrentUserProfile,
   getCurrentUserPlaylists,
@@ -16,7 +17,10 @@ export default function Profile() {
   const [playlists, setPlaylists] = useState(null);
   const [topArtists, setTopArtists] = useState(null);
   const [topSongs, setTopSongs] = useState(null);
-  const [open, setOpen] = useState(false);
+
+  // const [currentSong, setCurrentSong] = useState(null);
+  // const audio = new Audio(currentSong);
+  // const [playing, setPlaying] = useState(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -47,8 +51,13 @@ export default function Profile() {
 
   let topFiveArtists = topArtists?.items.slice(0, 5);
   let topFiveSongs = topSongs?.items.slice(0, 5);
-  let topFivePlaylists = playlists?.items.slice(0, 5);
-  console.log(topFivePlaylists);
+  let topFivePlaylists = playlists?.items.slice(2, 7);
+  console.log(topFiveSongs);
+
+  // const toggle = (track) => {
+  //   setCurrentSong(track);
+  //   audio.play();
+  // };
 
   return (
     <>
@@ -109,6 +118,10 @@ export default function Profile() {
                   <p class="fw-lighter">{song.album.artists[0].name}</p>
                 </div>
                 <p>{song.album.name}</p>
+                <audio controls autoplay name="media">
+                  <source src={song.preview_url} type="audio/mpeg"></source>
+                </audio>
+                {/* <button onClick={toggle(song.preview_url)}>Play</button> */}
               </div>
             ))}
           </div>
