@@ -13,6 +13,11 @@ export const getTopArtists = (time_range = "short_term") => {
   return axios.get(`/me/top/artists?time_range=${time_range}`);
 };
 
+// get user top artists
+export const getTopSongs = (time_range = "short_term") => {
+  return axios.get(`/me/top/tracks?time_range=${time_range}`);
+};
+
 // localStorage keys
 const LOCALSTORAGE_KEYS = {
   accessToken: "spotify_access_token",

@@ -3,6 +3,7 @@ import {
   getCurrentUserProfile,
   getCurrentUserPlaylists,
   getTopArtists,
+  getTopSongs,
 } from "../spotify";
 import { logout } from "../spotify";
 import Stack from "react-bootstrap/Stack";
@@ -14,6 +15,7 @@ export default function Profile() {
   const [profile, setProfile] = useState(null);
   const [playlists, setPlaylists] = useState(null);
   const [topArtists, setTopArtists] = useState(null);
+  const [topSongs, setTopSongs] = useState(null);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -32,14 +34,21 @@ export default function Profile() {
       setTopArtists(data);
     };
 
+    const fetchTopSongs = async () => {
+      const { data } = await getTopSongs();
+      setTopSongs(data);
+    };
+
     fetchProfile();
     fetchPlaylists();
     fetchTopArtists();
+    fetchTopSongs();
   }, []);
 
-  console.log(topArtists);
-  // let allArtists = topArtists?.items?.slice(0, 10);
   let topFiveArtists = topArtists?.items.slice(0, 5);
+  let topFiveSongs = topSongs?.items.slice(0, 5);
+  let topFivePlaylists = playlists?.items.slice(0, 5);
+  console.log(topFivePlaylists);
 
   return (
     <>
@@ -86,6 +95,44 @@ export default function Profile() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+
+        <div className="topSongs">
+          <h2>Top Songs</h2>
+          <div>
+            {topFiveSongs?.map((song, idx) => (
+              <div className="d-flex justify-content-around align-items-center songs">
+                <img alt="albumCover" src={song.album.images[2].url}></img>
+                <div className="d-flex flex-column justify-content-evenly">
+                  <p>{song.name}</p>
+                  <p class="fw-lighter">{song.album.artists[0].name}</p>
+                </div>
+                <p>{song.album.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="publicPlaylists">
+          <h2>Public Playlists</h2>
+          <div className="d-flex justify-content-evenly">
+            {topFivePlaylists?.map((playlist, idx) => (
+              <div>
+                <Card style={{ width: "18vw" }} className="card">
+                  <a href={playlist.external_urls.spotify}>
+                    <Card.Img
+                      variant="top"
+                      src={playlist.images[0].url}
+                      className="cardTop playlistPic"
+                    />
+                  </a>
+                  <Card.Body className="cardBody">
+                    <Card.Title>{playlist.name}</Card.Title>
+                  </Card.Body>
+                </Card>
+              </div>
+            ))}
           </div>
         </div>
       </Stack>
