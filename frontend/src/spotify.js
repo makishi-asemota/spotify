@@ -18,6 +18,11 @@ export const getTopSongs = (time_range = "short_term") => {
   return axios.get(`/me/top/tracks?time_range=${time_range}`);
 };
 
+// search songs
+export function searchSongs(props) {
+  return axios.get(`/search?q=${props}&type=track`);
+}
+
 // localStorage keys
 const LOCALSTORAGE_KEYS = {
   accessToken: "spotify_access_token",

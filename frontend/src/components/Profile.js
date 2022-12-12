@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import ReactPlayer from "react-player";
 import {
   getCurrentUserProfile,
   getCurrentUserPlaylists,
@@ -17,10 +16,6 @@ export default function Profile() {
   const [playlists, setPlaylists] = useState(null);
   const [topArtists, setTopArtists] = useState(null);
   const [topSongs, setTopSongs] = useState(null);
-
-  // const [currentSong, setCurrentSong] = useState(null);
-  // const audio = new Audio(currentSong);
-  // const [playing, setPlaying] = useState(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -54,11 +49,6 @@ export default function Profile() {
   let topFivePlaylists = playlists?.items.slice(2, 7);
   console.log(topFiveSongs);
 
-  // const toggle = (track) => {
-  //   setCurrentSong(track);
-  //   audio.play();
-  // };
-
   return (
     <>
       <Stack gap={3}>
@@ -75,8 +65,16 @@ export default function Profile() {
               <p>{playlists?.total} Public Playlists</p>
             </div>
           </div>
+          <a
+            href="/newMusic"
+            class="btn btn-success btn-m active"
+            role="button"
+            aria-pressed="true"
+          >
+            Find New Music
+          </a>
           <Button
-            variant="outline-success"
+            variant="outline-danger"
             className="rounded-pill"
             onClick={logout}
           >
