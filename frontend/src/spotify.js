@@ -20,7 +20,7 @@ export const getTopSongs = (time_range = "short_term") => {
 
 // search songs
 export function searchSongs(props) {
-  return axios.get(`/search?q=${props}&type=track`);
+  return axios.get(`/search?q=${props}&type=track&limit=10`);
 }
 
 // localStorage keys

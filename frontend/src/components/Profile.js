@@ -60,7 +60,7 @@ export default function Profile() {
           />
           <div>
             <h1 className="fw-bold">{profile?.id}</h1>
-            <div className="d-flex justify-content-evenly">
+            <div className="d-flex justify-content-between">
               <p>{profile?.followers.total} Followers</p>
               <p>{playlists?.total} Public Playlists</p>
             </div>
@@ -85,7 +85,7 @@ export default function Profile() {
         <div className="topArtists">
           <h2>Top Artists</h2>
           <div>
-            <div className="d-flex justify-content-evenly">
+            <div className="d-flex justify-content-between">
               {topFiveArtists?.map((artist, idx) => (
                 <div>
                   <Card style={{ width: "18vw" }} className="card">
@@ -111,7 +111,7 @@ export default function Profile() {
             {topFiveSongs?.map((song, idx) => (
               <div className="d-flex justify-content-around align-items-center songs">
                 <img alt="albumCover" src={song.album.images[2].url}></img>
-                <div className="d-flex flex-column justify-content-evenly">
+                <div className="d-flex flex-column justify-content-between">
                   <p>{song.name}</p>
                   <p class="fw-lighter">{song.album.artists[0].name}</p>
                 </div>
@@ -127,7 +127,7 @@ export default function Profile() {
 
         <div className="publicPlaylists">
           <h2>Public Playlists</h2>
-          <div className="d-flex justify-content-evenly">
+          <div className="d-flex justify-content-between">
             {topFivePlaylists?.map((playlist, idx) => (
               <div>
                 <Card style={{ width: "18vw" }} className="card">

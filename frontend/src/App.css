@@ -67,3 +67,11 @@ audio::-webkit-media-controls-timeline {
   margin-left: 10px;
   margin-right: 10px;
 }
+
+.songTitle {
+  padding: 1%;
+}
+
+.songTitle:hover {
+  background-color: #737b7e;
+}
