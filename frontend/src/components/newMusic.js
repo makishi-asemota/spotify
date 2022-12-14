@@ -5,12 +5,13 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Stack from "react-bootstrap/Stack";
-import { searchSongs } from "../spotify";
+import { searchSongs, getRecommendations } from "../spotify";
 import "bootstrap/dist/css/bootstrap.css";
 export default function New() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchedSong, setSearchedSong] = useState(null);
   const [searchedSongTitle, setSearchedSongTitle] = useState(null);
+  const [songRecommendations, setSongRecommendations] = useState(null);
 
   async function searchTracks(e) {
     e.preventDefault();
@@ -19,11 +20,19 @@ export default function New() {
     console.log(searchedSongTitle);
   }
 
-  const songOnClick = (id) => {
+  async function songOnClick(id) {
     const selectedSong = searchedSongTitle.find((song) => song.id === id);
     setSearchedSong(selectedSong);
-    console.log(searchedSong);
-  };
+
+    const artistId = searchedSong?.artists[0].id;
+    const trackId = searchedSong?.id;
+
+    const { data } = await getRecommendations(artistId, trackId);
+    setSongRecommendations(data);
+    console.log(songRecommendations);
+
+    // setSearchedSongTitle(null);
+  }
 
   return (
     <>
@@ -69,6 +78,8 @@ export default function New() {
                 </div>
               ))}
             </Stack>
+          ) : songRecommendations ? (
+            <p>recommendations</p>
           ) : (
             <p>empty</p>
           )}

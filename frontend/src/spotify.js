@@ -23,6 +23,13 @@ export function searchSongs(props) {
   return axios.get(`/search?q=${props}&type=track&limit=10`);
 }
 
+// get recommendations
+export function getRecommendations(artistId, trackId) {
+  return axios.get(
+    `/recommendations?limit=10&seed_artists=${artistId}&seed_tracks=${trackId}`
+  );
+}
+
 // localStorage keys
 const LOCALSTORAGE_KEYS = {
   accessToken: "spotify_access_token",
