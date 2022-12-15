@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useReducer, useContext } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -6,12 +6,28 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Stack from "react-bootstrap/Stack";
 import { searchSongs, getRecommendations } from "../spotify";
+import { TrackTitles, TrackRecommendations, Empty } from "./newMusicDisplay";
 import "bootstrap/dist/css/bootstrap.css";
+
+const MyContext = React.createContext();
+
 export default function New() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchedSong, setSearchedSong] = useState(null);
-  const [searchedSongTitle, setSearchedSongTitle] = useState(null);
-  const [songRecommendations, setSongRecommendations] = useState(null);
+  // const [searchedSong, setSearchedSong] = useState([]);
+  // const [searchedSongTitle, setSearchedSongTitle] = useState(null);
+  // const [songRecommendations, setSongRecommendations] = useState([]);
+  const [state, dispatch] = useReducer(reducer, {
+    searchedSong: [],
+    searchedSongTitle: null,
+    songRecommendations: [],
+  });
+
+  async function reducer(state, action) {
+    switch(action.type) {
+      case 'searchedWord':
+        return{...state, searchTerm: }
+    }
+  }
 
   async function searchTracks(e) {
     e.preventDefault();
@@ -20,18 +36,36 @@ export default function New() {
     console.log(searchedSongTitle);
   }
 
-  async function songOnClick(id) {
+  const songOnClick = async (id) => {
     const selectedSong = searchedSongTitle.find((song) => song.id === id);
-    setSearchedSong(selectedSong);
+    setSearchedSong((e) => e + searchedSong);
+    console.log(searchedSong);
+    setSearchedSongTitle((e) => e + selectedSong);
 
     const artistId = searchedSong?.artists[0].id;
     const trackId = searchedSong?.id;
 
     const { data } = await getRecommendations(artistId, trackId);
-    setSongRecommendations(data);
+    setSongRecommendations((e) => e + data);
     console.log(songRecommendations);
+  };
 
-    // setSearchedSongTitle(null);
+  let displayModule;
+  if (searchedSongTitle) {
+    if (searchedSongTitle.length > 1) {
+      displayModule = (
+        <TrackTitles
+          searchedSongTitle={searchedSongTitle}
+          songOnClick={songOnClick}
+        />
+      );
+    } else if (songRecommendations) {
+      displayModule = (
+        <TrackRecommendations songRecommendations={songRecommendations} />
+      );
+    }
+  } else {
+    displayModule = <Empty />;
   }
 
   return (
@@ -49,7 +83,11 @@ export default function New() {
                 setSearchTerm(e.target.value);
               }}
             />
-            <Button variant="success" type="submit" onClick={searchTracks}>
+            <Button
+              variant="success"
+              type="submit"
+              onClick={(e) => searchTracks(e)}
+            >
               Search
             </Button>
           </Form>
@@ -62,9 +100,12 @@ export default function New() {
       </Navbar>
 
       <br></br>
-      <div className="d-flex justify-content-center">
+
+      {displayModule}
+      {/* <div className="d-flex justify-content-center">
         <div className="" style={{ width: "60vw" }}>
-          {searchedSongTitle ? (
+          {searchedSongTitle ? 
+            searchedSongTitle.length > 1 ? (
             <Stack gap={3}>
               {searchedSongTitle.map((song) => (
                 <div
@@ -84,7 +125,7 @@ export default function New() {
             <p>empty</p>
           )}
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
