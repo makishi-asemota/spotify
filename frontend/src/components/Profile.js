@@ -9,6 +9,10 @@ import { logout } from "../spotify";
 import Stack from "react-bootstrap/Stack";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
 import "bootstrap/dist/css/bootstrap.css";
 
 export default function Profile() {
@@ -44,10 +48,9 @@ export default function Profile() {
     fetchTopSongs();
   }, []);
 
-  let topFiveArtists = topArtists?.items.slice(0, 5);
-  let topFiveSongs = topSongs?.items.slice(0, 5);
-  let topFivePlaylists = playlists?.items.slice(2, 7);
-  console.log(topFiveSongs);
+  let topFiveArtists = topArtists?.items.slice(0, 6);
+  let topFiveSongs = topSongs?.items.slice(0, 6);
+  let topFivePlaylists = playlists?.items.slice(0, 6);
 
   return (
     <>
@@ -65,10 +68,10 @@ export default function Profile() {
               <p>{playlists?.total} Public Playlists</p>
             </div>
           </div>
-          <div className="d-flex justify-content-around">
+          <div className="d-flex justify-content-around flex-md-column gap-md-3">
             <a
               href="/newMusic"
-              class="btn btn-success btn-m active"
+              className="btn btn-success btn-m active"
               role="button"
               aria-pressed="true"
             >
@@ -85,67 +88,76 @@ export default function Profile() {
         </div>
 
         <div className="topArtists">
-          <h2>Top Artists</h2>
-          <div>
-            <div className="d-flex justify-content-between">
-              {topFiveArtists?.map((artist, idx) => (
-                <div>
-                  <Card style={{ width: "18vw" }} className="card">
-                    <Card.Img
-                      variant="top"
-                      src={artist.images[0].url}
-                      className="rounded-circle cardTop"
-                    />
-                    <Card.Body className="cardBody">
-                      <Card.Title>{artist.name}</Card.Title>
-                      <Card.Text>Artist</Card.Text>
-                    </Card.Body>
-                  </Card>
-                </div>
-              ))}
-            </div>
-          </div>
+          <h2 className="fw-bold">Top Artists</h2>
+          <Row xs={2} md={3} className="g-4 justify-content-center">
+            {topFiveArtists?.map((artist, idx) => (
+              <Col className="d-flex justify-content-center">
+                <Card className=" card">
+                  <Card.Img
+                    variant="top"
+                    src={artist.images[0].url}
+                    className="cardTop"
+                  />
+                  <Card.Body className="cardBody">
+                    <Card.Title>{artist.name}</Card.Title>
+                    <Card.Text>Artist</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
         </div>
 
-        <div className="topSongs">
-          <h2>Top Songs</h2>
+        <div className="d-flex justify-content-center topSongs">
           <div>
-            {topFiveSongs?.map((song, idx) => (
-              <div className="d-flex justify-content-around align-items-center songs">
-                <img alt="albumCover" src={song.album.images[2].url}></img>
-                <div className="d-flex flex-column justify-content-between">
-                  <p>{song.name}</p>
-                  <p class="fw-lighter">{song.album.artists[0].name}</p>
-                </div>
-                <p>{song.album.name}</p>
-                <audio controls autoplay name="media">
-                  <source src={song.preview_url} type="audio/mpeg"></source>
-                </audio>
-              </div>
-            ))}
+            <h2 className="fw-bold">Top Songs</h2>
+            <Row xs={1} md={2} className="g-4 justify-content-around">
+              {topFiveSongs?.map((song, idx) => (
+                <Col>
+                  <div className="d-flex flex-column align-items-center gap-1 justify-content-lg-around bg-dark songTitle">
+                    <img
+                      alt="albumCover"
+                      className="albumCover"
+                      src={song.album.images[0].url}
+                    ></img>
+                    <div className="audioPlayer">
+                      <p>{song.name}</p>
+                      <p class="fw-lighter">{song.album.artists[0].name}</p>
+                      <AudioPlayer src={song.preview_url} />
+                    </div>
+                  </div>
+                </Col>
+              ))}
+            </Row>
           </div>
         </div>
 
         <div className="publicPlaylists">
-          <h2>Public Playlists</h2>
-          <div className="d-flex justify-content-between">
+          <h2 className="fw-bold">Public Playlists</h2>
+          <Row xs={3} lg={6} className="g-4 justify-content-center">
             {topFivePlaylists?.map((playlist, idx) => (
-              <div>
+              <Col className="d-flex justify-content-center">
                 <Card style={{ width: "18vw" }} className="card">
-                  <a href={playlist.external_urls.spotify}>
-                    <Card.Img
-                      variant="top"
-                      src={playlist.images[0].url}
-                      className="cardTop playlistPic"
-                    />
-                  </a>
-                  <Card.Body className="cardBody">
-                    <Card.Title>{playlist.name}</Card.Title>
-                  </Card.Body>
+                  <Card.Img
+                    variant="top"
+                    src={playlist.images[0].url}
+                    className="cardTop playlistPic"
+                  />
+
+                  <Card.ImgOverlay className="d-flex align-items-center justify-content-center">
+                    <Card.Title>
+                      <a
+                        href={playlist.external_urls.spotify}
+                        class="link-light text-decoration-none"
+                      >
+                        {playlist.name}
+                      </a>
+                    </Card.Title>
+                  </Card.ImgOverlay>
                 </Card>
-              </div>
+              </Col>
             ))}
-          </div>
+          </Row>
         </div>
       </Stack>
     </>

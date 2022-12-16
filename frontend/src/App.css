@@ -3,7 +3,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #3f3f46;
   min-height: 100vh;
 
   color: white;
@@ -26,46 +26,8 @@
   height: 100%;
 }
 
-.cardTop {
-  height: 18vw;
-  object-fit: cover;
-}
-
 .cardBody {
   background-color: rgb(56, 54, 54);
-}
-
-audio::-webkit-media-controls-panel {
-  background-color: rgb(56, 54, 54);
-}
-
-audio::-webkit-media-controls-mute-button {
-  background-color: #737b7e;
-  border-radius: 50%;
-}
-
-audio::-webkit-media-controls-play-button {
-  background-color: #737b7e;
-  border-radius: 50%;
-}
-
-audio::-webkit-media-controls-play-button:hover {
-  background-color: rgba(177, 212, 224, 0.7);
-}
-
-audio::-webkit-media-controls-current-time-display {
-  color: #fff;
-}
-
-audio::-webkit-media-controls-time-remaining-display {
-  color: #fff;
-}
-
-audio::-webkit-media-controls-timeline {
-  background-color: #737b7e;
-  border-radius: 25px;
-  margin-left: 10px;
-  margin-right: 10px;
 }
 
 .songTitle {
@@ -93,7 +55,7 @@ audio::-webkit-media-controls-timeline {
   padding-top: 1.5%;
 }
 
-.recommendSong {
+.trackPlayer {
   width: 45vw;
 }
 
@@ -120,25 +82,33 @@ audio::-webkit-media-controls-timeline {
     width: 80vw;
   }
 
-  .recommendSong {
-    width: 60vw;
-  }
-
   .albumCover {
-    width: 18vw;
+    width: 30vw;
   }
 
   .songTitle {
     font-size: 3vw;
   }
 
+  .trackPlayer {
+    width: 70vw;
+  }
+
   .profileImage {
     width: 30vw;
+  }
+
+  .card {
+    width: 35vw;
+  }
+
+  .playlistPic {
+    width: 25vw;
   }
 }
 
 @media only screen and (min-width: 769px) {
-  .logout {
-    padding-left: 1%;
-  }
+  /* .card {
+    width: 18vw;
+  } */
 }

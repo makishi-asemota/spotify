@@ -30,7 +30,7 @@ export function TrackTitles({ searchedSongTitle, songOnClick }) {
 export function TrackRecommendations({ songRecommendations }) {
   return (
     <div className="d-flex justify-content-center">
-      <div className="recommendSong">
+      <div className="trackPlayer">
         <p className="fw-bold fs-3">Recommended Songs</p>
         <Stack gap={3}>
           {songRecommendations?.map((song) => (
