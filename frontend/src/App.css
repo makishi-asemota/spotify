@@ -69,9 +69,76 @@ audio::-webkit-media-controls-timeline {
 }
 
 .songTitle {
-  padding: 1%;
+  padding: 2%;
+  background-color: black;
+  color: whitesmoke;
 }
 
-.songTitle:hover {
+.searchedSongTitle {
+  padding: 2%;
+  background-color: black;
+  color: whitesmoke;
+}
+
+.searchSong {
+  width: 60vw;
+}
+
+.searchedSongTitle:hover {
   background-color: #737b7e;
+}
+
+.albumCover {
+  width: 15vw;
+  padding-top: 1.5%;
+}
+
+.recommendSong {
+  width: 45vw;
+}
+
+.recommendName {
+  font-size: 2.7vw;
+  padding-top: 1%;
+}
+
+.recommendArtist {
+  font-size: 1.8vw;
+  margin-top: -1.5%;
+}
+
+.audioPlayer {
+  width: 100%;
+}
+
+.albumCover:hover {
+  opacity: 0.5;
+}
+
+@media only screen and (min-width: 370px) and (max-width: 768px) {
+  .searchSong {
+    width: 80vw;
+  }
+
+  .recommendSong {
+    width: 60vw;
+  }
+
+  .albumCover {
+    width: 18vw;
+  }
+
+  .songTitle {
+    font-size: 3vw;
+  }
+
+  .profileImage {
+    width: 30vw;
+  }
+}
+
+@media only screen and (min-width: 769px) {
+  .logout {
+    padding-left: 1%;
+  }
 }

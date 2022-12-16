@@ -1,67 +1,56 @@
-import React, { useState, useReducer, useContext } from "react";
+import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import Stack from "react-bootstrap/Stack";
 import { searchSongs, getRecommendations } from "../spotify";
 import { TrackTitles, TrackRecommendations, Empty } from "./newMusicDisplay";
 import "bootstrap/dist/css/bootstrap.css";
 
-const MyContext = React.createContext();
-
 export default function New() {
   const [searchTerm, setSearchTerm] = useState("");
-  // const [searchedSong, setSearchedSong] = useState([]);
-  // const [searchedSongTitle, setSearchedSongTitle] = useState(null);
-  // const [songRecommendations, setSongRecommendations] = useState([]);
-  const [state, dispatch] = useReducer(reducer, {
+  const [state, setState] = useState({
     searchedSong: [],
     searchedSongTitle: null,
-    songRecommendations: [],
+    songRecommendations: null,
   });
-
-  async function reducer(state, action) {
-    switch(action.type) {
-      case 'searchedWord':
-        return{...state, searchTerm: }
-    }
-  }
 
   async function searchTracks(e) {
     e.preventDefault();
     const { data } = await searchSongs(searchTerm);
-    setSearchedSongTitle(data.tracks.items);
-    console.log(searchedSongTitle);
+    setState({ ...state, searchedSongTitle: data.tracks.items });
   }
 
   const songOnClick = async (id) => {
-    const selectedSong = searchedSongTitle.find((song) => song.id === id);
-    setSearchedSong((e) => e + searchedSong);
-    console.log(searchedSong);
-    setSearchedSongTitle((e) => e + selectedSong);
+    const selectedSong = state.searchedSongTitle.find((song) => song.id === id);
+    console.log(selectedSong);
 
-    const artistId = searchedSong?.artists[0].id;
-    const trackId = searchedSong?.id;
+    const artistId = selectedSong?.artists[0].id;
+    const trackId = selectedSong?.id;
 
     const { data } = await getRecommendations(artistId, trackId);
-    setSongRecommendations((e) => e + data);
-    console.log(songRecommendations);
+
+    setState({
+      searchedSong: selectedSong,
+      searchedSongTitle: selectedSong,
+      songRecommendations: data.tracks,
+    });
+    console.log(state.songRecommendations);
   };
 
   let displayModule;
-  if (searchedSongTitle) {
-    if (searchedSongTitle.length > 1) {
+  if (state.searchedSongTitle) {
+    if (state.searchedSongTitle.length > 1) {
       displayModule = (
         <TrackTitles
-          searchedSongTitle={searchedSongTitle}
+          searchedSongTitle={state.searchedSongTitle}
           songOnClick={songOnClick}
         />
       );
-    } else if (songRecommendations) {
+    } else if (state.songRecommendations) {
       displayModule = (
-        <TrackRecommendations songRecommendations={songRecommendations} />
+        <TrackRecommendations songRecommendations={state.songRecommendations} />
       );
     }
   } else {
@@ -70,62 +59,44 @@ export default function New() {
 
   return (
     <>
-      <Navbar bg="secondary" variant="dark" style={{ height: "14vh" }}>
+      <Navbar bg="secondary" expand="md" variant="dark">
         <Container>
           <Navbar.Brand className="fw-bold fs-2">Find New Music</Navbar.Brand>
-          <Form className="d-flex">
-            <Form.Control
-              type="text"
-              placeholder="Search song title"
-              className="me-2"
-              aria-label="Search"
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-              }}
-            />
-            <Button
-              variant="success"
-              type="submit"
-              onClick={(e) => searchTracks(e)}
-            >
-              Search
-            </Button>
-          </Form>
-          <Nav className="justify-content-end">
-            <Nav.Link className="fw-bold" href="/">
-              Return to my Profile
-            </Nav.Link>
-          </Nav>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="me-auto">
+              <Form className="d-flex">
+                <Form.Control
+                  type="text"
+                  placeholder="Search song title"
+                  className="me-2"
+                  aria-label="Search"
+                  onChange={(e) => {
+                    setSearchTerm(e.target.value);
+                  }}
+                />
+                <Button
+                  variant="success"
+                  type="submit"
+                  onClick={(e) => searchTracks(e)}
+                >
+                  Search
+                </Button>
+              </Form>
+            </Nav>
+
+            <Nav>
+              <Nav.Link className="fw-bold" href="/">
+                Return to my Profile
+              </Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
         </Container>
       </Navbar>
 
       <br></br>
 
       {displayModule}
-      {/* <div className="d-flex justify-content-center">
-        <div className="" style={{ width: "60vw" }}>
-          {searchedSongTitle ? 
-            searchedSongTitle.length > 1 ? (
-            <Stack gap={3}>
-              {searchedSongTitle.map((song) => (
-                <div
-                  key={song.id}
-                  className="d-flex justify-content-between align-items-center songTitle"
-                  onClick={() => songOnClick(song.id)}
-                >
-                  <img src={song.album.images[2].url} alt="albumcover"></img>
-                  <p className="fw-bold">{song.name}</p>
-                  <p className="fw-bold">{song.artists[0].name}</p>
-                </div>
-              ))}
-            </Stack>
-          ) : songRecommendations ? (
-            <p>recommendations</p>
-          ) : (
-            <p>empty</p>
-          )}
-        </div>
-      </div> */}
     </>
   );
 }

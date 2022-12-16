@@ -52,7 +52,7 @@ export default function Profile() {
   return (
     <>
       <Stack gap={3}>
-        <div className="d-flex align-items-center justify-content-around top">
+        <div className="d-md-flex align-items-md-center justify-content-md-around top">
           <img
             className="rounded-circle profileImage"
             src={profile?.images[0].url}
@@ -60,26 +60,28 @@ export default function Profile() {
           />
           <div>
             <h1 className="fw-bold">{profile?.id}</h1>
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-around d-md-flex justify-content-md-between">
               <p>{profile?.followers.total} Followers</p>
               <p>{playlists?.total} Public Playlists</p>
             </div>
           </div>
-          <a
-            href="/newMusic"
-            class="btn btn-success btn-m active"
-            role="button"
-            aria-pressed="true"
-          >
-            Find New Music
-          </a>
-          <Button
-            variant="outline-danger"
-            className="rounded-pill"
-            onClick={logout}
-          >
-            Logout
-          </Button>{" "}
+          <div className="d-flex justify-content-around">
+            <a
+              href="/newMusic"
+              class="btn btn-success btn-m active"
+              role="button"
+              aria-pressed="true"
+            >
+              Find New Music
+            </a>
+            <Button
+              variant="outline-danger"
+              className="rounded-pill logout"
+              onClick={logout}
+            >
+              Logout
+            </Button>{" "}
+          </div>
         </div>
 
         <div className="topArtists">
@@ -119,7 +121,6 @@ export default function Profile() {
                 <audio controls autoplay name="media">
                   <source src={song.preview_url} type="audio/mpeg"></source>
                 </audio>
-                {/* <button onClick={toggle(song.preview_url)}>Play</button> */}
               </div>
             ))}
           </div>
