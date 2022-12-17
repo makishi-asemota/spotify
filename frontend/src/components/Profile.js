@@ -88,11 +88,12 @@ export default function Profile() {
         </div>
 
         <div className="topArtists">
-          <h2 className="fw-bold">Top Artists</h2>
+          <h2 className="fw-bold fs-1">Top Artists</h2>
+          <br></br>
           <Row xs={2} md={3} className="g-4 justify-content-center">
             {topFiveArtists?.map((artist, idx) => (
               <Col className="d-flex justify-content-center">
-                <Card className=" card">
+                <Card className="card">
                   <Card.Img
                     variant="top"
                     src={artist.images[0].url}
@@ -110,7 +111,8 @@ export default function Profile() {
 
         <div className="d-flex justify-content-center topSongs">
           <div>
-            <h2 className="fw-bold">Top Songs</h2>
+            <h2 className="fw-bold fs-1">Top Songs</h2>
+            <br></br>
             <Row xs={1} md={2} className="g-4 justify-content-around">
               {topFiveSongs?.map((song, idx) => (
                 <Col>
@@ -133,11 +135,12 @@ export default function Profile() {
         </div>
 
         <div className="publicPlaylists">
-          <h2 className="fw-bold">Public Playlists</h2>
-          <Row xs={3} lg={6} className="g-4 justify-content-center">
+          <h2 className="fw-bold fs-1">Public Playlists</h2>
+          <br></br>
+          <Row xs={3} className="g-4 justify-content-center">
             {topFivePlaylists?.map((playlist, idx) => (
               <Col className="d-flex justify-content-center">
-                <Card style={{ width: "18vw" }} className="card">
+                <Card className="playlistCard">
                   <Card.Img
                     variant="top"
                     src={playlist.images[0].url}
@@ -148,7 +151,7 @@ export default function Profile() {
                     <Card.Title>
                       <a
                         href={playlist.external_urls.spotify}
-                        class="link-light text-decoration-none"
+                        className="link-light playlistTitle"
                       >
                         {playlist.name}
                       </a>

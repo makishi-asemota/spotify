@@ -9,6 +9,10 @@
   color: white;
 }
 
+.spotifyLogo {
+  width: 20vw;
+}
+
 .profileImage {
   width: 20vw;
 }
@@ -18,7 +22,11 @@
 }
 
 .topArtists {
-  height: 50%;
+  padding: 5%;
+}
+
+.topSongs {
+  padding: 5%;
 }
 
 .card {
@@ -77,6 +85,10 @@
   opacity: 0.5;
 }
 
+.publicPlaylists {
+  padding: 5%;
+}
+
 @media only screen and (min-width: 370px) and (max-width: 768px) {
   .searchSong {
     width: 80vw;
@@ -104,6 +116,10 @@
 
   .playlistPic {
     width: 25vw;
+  }
+
+  .playlistCard {
+    width: 27vw;
   }
 }
 
