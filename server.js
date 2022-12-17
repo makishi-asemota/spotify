@@ -1,9 +1,11 @@
-require("dotenv").config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 const express = require("express");
 const querystring = require("node:querystring");
 const axios = require("axios");
 const app = express();
-const port = 8888;
+// const port = 8888;
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -111,6 +113,8 @@ app.get("refresh_token", (req, res) => {
     });
 });
 
-app.listen(port, () => {
-  console.log(`Express app listening at http://localhost:${port}`);
-});
+app.listen(process.env.PORT || 8888);
+
+// app.listen(port, () => {
+//   console.log(`Express app listening at http://localhost:${port}`);
+// });
