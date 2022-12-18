@@ -9,7 +9,7 @@ const path = require("path");
 // const port = 8888;
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static(path.join(__dirname, "frontend/build")));
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -118,7 +118,7 @@ app.get("refresh_token", (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+  res.sendFile(path.join(__dirname + "/frontend/build/index.html"));
 });
 
 app.listen(process.env.PORT || 8888);
