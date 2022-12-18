@@ -7,6 +7,9 @@ const axios = require("axios");
 const app = express();
 // const port = 8888;
 
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "frontend/public")));
+
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
@@ -111,6 +114,10 @@ app.get("refresh_token", (req, res) => {
     .catch((error) => {
       res.send(error);
     });
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/frontend/public/index.html"));
 });
 
 app.listen(process.env.PORT || 8888);
