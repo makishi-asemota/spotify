@@ -9,6 +9,11 @@ import "bootstrap/dist/css/bootstrap.css";
 function App() {
   const [token, setToken] = useState(null);
 
+  const LOGIN_URI =
+    process.env.NODE_ENV !== "production"
+      ? "http://localhost:8888/login"
+      : "https://spotifycompanion.herokuapp.com/login";
+
   useEffect(() => {
     setToken(accessToken);
   }, []);
@@ -36,7 +41,7 @@ function App() {
               className="btn btn-success btn-m active"
               role="button"
               aria-pressed="true"
-              href="http://localhost:8888/login"
+              href={LOGIN_URI}
             >
               Login to Spotify
             </a>
