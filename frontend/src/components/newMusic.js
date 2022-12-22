@@ -4,27 +4,45 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { searchSongs, getRecommendations } from "../spotify";
-import { TrackTitles, TrackRecommendations, Empty } from "./newMusicDisplay";
+import {
+  searchSongs,
+  getRecommendations,
+  createPlaylist,
+  addToPlaylist,
+} from "../spotify";
+import {
+  TrackTitles,
+  TrackRecommendations,
+  CreatePlaylist,
+  Empty,
+} from "./newMusicDisplay";
 import "bootstrap/dist/css/bootstrap.css";
 
-export default function New() {
+export default function New({ profile }) {
   const [searchTerm, setSearchTerm] = useState("");
+  const [playlist, setPlaylist] = useState(null);
+  const [playlistSongs, setPlaylistSongs] = useState([]);
+  const [playlistName, setPlaylistName] = useState("");
+  const [playlistDescription, setPlaylistDescription] = useState("");
+  const [if_public, setIf_Public] = useState(false);
+  const [createdPlaylist, setCreatedPlaylist] = useState(false);
   const [state, setState] = useState({
     searchedSong: [],
     searchedSongTitle: null,
     songRecommendations: null,
   });
 
+  // search spotify for entered track name
   async function searchTracks(e) {
     e.preventDefault();
     const { data } = await searchSongs(searchTerm);
+    console.log(data.tracks.items);
     setState({ ...state, searchedSongTitle: data.tracks.items });
   }
 
+  // show recommended song after click on searched song
   const songOnClick = async (id) => {
     const selectedSong = state.searchedSongTitle.find((song) => song.id === id);
-    console.log(selectedSong);
 
     const artistId = selectedSong?.artists[0].id;
     const trackId = selectedSong?.id;
@@ -36,8 +54,40 @@ export default function New() {
       searchedSongTitle: selectedSong,
       songRecommendations: data.tracks,
     });
-    console.log(state.songRecommendations);
   };
+
+  // render playlist page
+  const createPlaylistPage = () => {
+    setPlaylistSongs(state.songRecommendations);
+    state.songRecommendations = null;
+    console.log(profile.id);
+  };
+
+  async function generatePlaylist(e) {
+    e.preventDefault();
+    // create playlist
+    const user_id = profile?.id;
+    const name = playlistName;
+    const description = playlistDescription;
+    const playlistPublic = if_public;
+    const { data } = await createPlaylist(
+      user_id,
+      name,
+      description,
+      playlistPublic
+    );
+    setPlaylist(data);
+    console.log(playlist);
+
+    // add songs to playlist
+    const playlistId = playlist?.id;
+    playlistSongs.forEach((song) => {
+      const uri = song.uri;
+      addToPlaylist(playlistId, uri);
+    });
+
+    setCreatedPlaylist(true);
+  }
 
   let displayModule;
   if (state.searchedSongTitle) {
@@ -50,7 +100,22 @@ export default function New() {
       );
     } else if (state.songRecommendations) {
       displayModule = (
-        <TrackRecommendations songRecommendations={state.songRecommendations} />
+        <TrackRecommendations
+          songRecommendations={state.songRecommendations}
+          createPlaylistPage={createPlaylistPage}
+        />
+      );
+    } else if (playlistSongs) {
+      displayModule = (
+        <CreatePlaylist
+          setPlaylistName={setPlaylistName}
+          setPlaylistDescription={setPlaylistDescription}
+          if_public={if_public}
+          setIf_Public={setIf_Public}
+          generatePlaylist={generatePlaylist}
+          createdPlaylist={createdPlaylist}
+          playlist={playlist}
+        />
       );
     }
   } else {

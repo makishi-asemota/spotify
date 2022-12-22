@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { accessToken } from "./spotify";
+import { accessToken, getCurrentUserProfile } from "./spotify";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import New from "./components/newMusic";
@@ -8,7 +8,7 @@ import "bootstrap/dist/css/bootstrap.css";
 
 function App() {
   const [token, setToken] = useState(null);
-
+  const [profile, setProfile] = useState(null);
   const LOGIN_URI =
     process.env.NODE_ENV !== "production"
       ? "http://localhost:8888/login"
@@ -16,6 +16,12 @@ function App() {
 
   useEffect(() => {
     setToken(accessToken);
+
+    const fetchProfile = async () => {
+      const { data } = await getCurrentUserProfile();
+      setProfile(data);
+    };
+    fetchProfile();
   }, []);
 
   return (
@@ -50,8 +56,13 @@ function App() {
           <>
             <BrowserRouter>
               <Routes>
-                <Route path="/" element={<Profile />} />
-                <Route path="/newMusic" element={<New />} />
+                <Route
+                  path="/"
+                  element={
+                    <Profile profile={profile} setProfile={setProfile} />
+                  }
+                />
+                <Route path="/newMusic" element={<New profile={profile} />} />
               </Routes>
             </BrowserRouter>
           </>

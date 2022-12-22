@@ -30,6 +30,20 @@ export function getRecommendations(artistId, trackId) {
   );
 }
 
+// make playlist
+export function createPlaylist(user_id, name, description, playlistPublic) {
+  return axios.post(`/users/${user_id}/playlists`, {
+    name: name,
+    description: description,
+    public: playlistPublic,
+  });
+}
+
+// add recommended songs to playlist
+export function addToPlaylist(playlistId, uri) {
+  return axios.post(`/playlists/${playlistId}/tracks?uris=${uri}`);
+}
+
 // localStorage keys
 const LOCALSTORAGE_KEYS = {
   accessToken: "spotify_access_token",

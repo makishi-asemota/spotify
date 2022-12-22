@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import {
-  getCurrentUserProfile,
   getCurrentUserPlaylists,
   getTopArtists,
   getTopSongs,
@@ -15,18 +14,12 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import "bootstrap/dist/css/bootstrap.css";
 
-export default function Profile() {
-  const [profile, setProfile] = useState(null);
+export default function Profile({ profile }) {
   const [playlists, setPlaylists] = useState(null);
   const [topArtists, setTopArtists] = useState(null);
   const [topSongs, setTopSongs] = useState(null);
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      const { data } = await getCurrentUserProfile();
-      setProfile(data);
-    };
-
     const fetchPlaylists = async () => {
       const { data } = await getCurrentUserPlaylists();
       setPlaylists(data);
@@ -42,7 +35,6 @@ export default function Profile() {
       setTopSongs(data);
     };
 
-    fetchProfile();
     fetchPlaylists();
     fetchTopArtists();
     fetchTopSongs();

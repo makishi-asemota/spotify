@@ -1,6 +1,6 @@
-.App {
+/* .App {
   text-align: center;
-}
+} */
 
 .App-header {
   background-color: #3f3f46;
@@ -87,6 +87,19 @@
 
 .publicPlaylists {
   padding: 5%;
+}
+
+.makePlaylist {
+  margin-bottom: 5%;
+}
+
+.playlistForm {
+  width: 55%;
+  margin-top: 1%;
+}
+
+.goToPlaylist {
+  margin-top: 4%;
 }
 
 @media only screen and (min-width: 370px) and (max-width: 768px) {
