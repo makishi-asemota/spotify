@@ -20,12 +20,14 @@ import "bootstrap/dist/css/bootstrap.css";
 
 export default function New({ profile }) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [playlist, setPlaylist] = useState(null);
   const [playlistSongs, setPlaylistSongs] = useState([]);
   const [playlistName, setPlaylistName] = useState("");
   const [playlistDescription, setPlaylistDescription] = useState("");
   const [if_public, setIf_Public] = useState(false);
-  const [createdPlaylist, setCreatedPlaylist] = useState(false);
+  const [playlistState, setPlaylistState] = useState({
+    playlist: null,
+    createdPlaylist: false,
+  });
   const [state, setState] = useState({
     searchedSong: [],
     searchedSongTitle: null,
@@ -76,17 +78,19 @@ export default function New({ profile }) {
       description,
       playlistPublic
     );
-    setPlaylist(data);
-    console.log(playlist);
+    setPlaylistState({
+      playlist: data,
+      createdPlaylist: true,
+    });
+  }
 
+  async function addTracks() {
     // add songs to playlist
-    const playlistId = playlist?.id;
+    const playlistId = playlistState.playlist?.id;
     playlistSongs.forEach((song) => {
       const uri = song.uri;
       addToPlaylist(playlistId, uri);
     });
-
-    setCreatedPlaylist(true);
   }
 
   let displayModule;
@@ -113,8 +117,9 @@ export default function New({ profile }) {
           if_public={if_public}
           setIf_Public={setIf_Public}
           generatePlaylist={generatePlaylist}
-          createdPlaylist={createdPlaylist}
-          playlist={playlist}
+          createdPlaylist={playlistState.createdPlaylist}
+          playlist={playlistState.playlist}
+          addTracks={addTracks}
         />
       );
     }

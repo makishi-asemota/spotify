@@ -84,6 +84,7 @@ export function CreatePlaylist({
   generatePlaylist,
   createdPlaylist,
   playlist,
+  addTracks,
 }) {
   return (
     <div className="d-flex flex-column align-items-center">
@@ -139,6 +140,7 @@ export function CreatePlaylist({
               className="btn btn-lg btn-success btn-m active"
               role="button"
               aria-pressed="true"
+              onClick={() => addTracks()}
             >
               Go to Playlist
             </a>

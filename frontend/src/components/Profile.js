@@ -43,6 +43,7 @@ export default function Profile({ profile }) {
   let topFiveArtists = topArtists?.items.slice(0, 6);
   let topFiveSongs = topSongs?.items.slice(0, 6);
   let topFivePlaylists = playlists?.items.slice(0, 6);
+  console.log(topFivePlaylists);
 
   return (
     <>
