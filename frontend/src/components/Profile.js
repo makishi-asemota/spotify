@@ -80,7 +80,7 @@ export default function Profile({ profile }) {
         </div>
 
         <div className="topArtists">
-          <h2 className="fw-bold fs-1">Top Artists</h2>
+          <h2 className="fw-bold fs-1 text-center">Top Artists</h2>
           <br></br>
           <Row xs={2} md={3} className="g-4 justify-content-center">
             {topFiveArtists?.map((artist, idx) => (
@@ -91,7 +91,7 @@ export default function Profile({ profile }) {
                     src={artist.images[0].url}
                     className="cardTop"
                   />
-                  <Card.Body className="cardBody">
+                  <Card.Body className="cardBody text-center">
                     <Card.Title>{artist.name}</Card.Title>
                     <Card.Text>Artist</Card.Text>
                   </Card.Body>
@@ -103,7 +103,7 @@ export default function Profile({ profile }) {
 
         <div className="d-flex justify-content-center topSongs">
           <div>
-            <h2 className="fw-bold fs-1">Top Songs</h2>
+            <h2 className="fw-bold fs-1 text-center">Top Songs</h2>
             <br></br>
             <Row xs={1} md={2} className="g-4 justify-content-around">
               {topFiveSongs?.map((song, idx) => (
@@ -114,7 +114,7 @@ export default function Profile({ profile }) {
                       className="albumCover"
                       src={song.album.images[0].url}
                     ></img>
-                    <div className="audioPlayer">
+                    <div className="audioPlayer text-center">
                       <p>{song.name}</p>
                       <p class="fw-lighter">{song.album.artists[0].name}</p>
                       <AudioPlayer src={song.preview_url} />
@@ -127,7 +127,7 @@ export default function Profile({ profile }) {
         </div>
 
         <div className="publicPlaylists">
-          <h2 className="fw-bold fs-1">Public Playlists</h2>
+          <h2 className="fw-bold fs-1 text-center">Public Playlists</h2>
           <br></br>
           <Row xs={3} className="g-4 justify-content-center">
             {topFivePlaylists?.map((playlist, idx) => (
